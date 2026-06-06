@@ -1,0 +1,78 @@
+# Stack local para Macro Intelligence Pipeline.
+# Servicios: Postgres (metadata de Airflow), Airflow (webserver/scheduler/worker)
+# y Streamlit. Scaffolding: los comandos son placeholders, sin lógica de negocio.
+# Ajustar imágenes, ejecutor y variables antes de usar.
+
+x-airflow-common: &airflow-common
+  image: apache/airflow:2.9.3
+  env_file:
+    - .env
+  environment: &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER:-airflow}:${POSTGRES_PASSWORD:-airflow}@postgres:5432/${POSTGRES_DB:-airflow}
+    AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+    AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+    AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
+    LLM_API_KEY: ${LLM_API_KEY:-}
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./src:/opt/airflow/src
+    - ./dbt:/opt/airflow/dbt
+    - ./logs:/opt/airflow/logs
+  depends_on:
+    postgres:
+      condition: service_healthy
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: mip-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-airflow}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-airflow}
+      POSTGRES_DB: ${POSTGRES_DB:-airflow}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER:-airflow}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  airflow-webserver:
+    <<: *airflow-common
+    container_name: mip-airflow-webserver
+    ports:
+      - "8080:8080"
+    # NOTE: placeholder. Definir init de DB, creación de usuario y arranque real.
+    command: ["bash", "-c", "echo 'placeholder: configurar airflow webserver'"]
+
+  airflow-scheduler:
+    <<: *airflow-common
+    container_name: mip-airflow-scheduler
+    command: ["bash", "-c", "echo 'placeholder: configurar airflow scheduler'"]
+
+  airflow-worker:
+    <<: *airflow-common
+    container_name: mip-airflow-worker
+    command: ["bash", "-c", "echo 'placeholder: configurar airflow worker'"]
+
+  streamlit:
+    image: python:3.11-slim
+    container_name: mip-streamlit
+    working_dir: /app
+    env_file:
+      - .env
+    volumes:
+      - ./dashboard:/app/dashboard
+      - ./src:/app/src
+      - ./requirements.txt:/app/requirements.txt
+    ports:
+      - "8501:8501"
+    # NOTE: placeholder. Definir instalación de deps y `streamlit run`.
+    command: ["bash", "-c", "echo 'placeholder: configurar streamlit'"]
+
+volumes:
+  postgres-data:

@@ -1,0 +1,18 @@
+# Dependencias de desarrollo.
+# Placeholder: fijar versiones segun convenga.
+
+-r requirements.txt
+
+# Testing
+pytest
+
+# Calidad de codigo
+ruff
+black
+mypy
+
+# Transformaciones
+dbt-core
+
+# Notebooks
+jupyterlab

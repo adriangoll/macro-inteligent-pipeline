@@ -1,0 +1,25 @@
+# Dependencias de runtime para Macro Intelligence Pipeline.
+# Placeholder: fijar versiones y completar segun se implementen los modulos.
+
+# Orquestacion
+apache-airflow
+
+# Procesamiento de datos
+pandas
+pyarrow
+requests
+beautifulsoup4
+
+# AWS / data lake / query
+boto3
+pyathena
+
+# Dashboard
+streamlit
+
+# Base de datos
+SQLAlchemy
+psycopg2-binary
+
+# Configuracion
+python-dotenv
