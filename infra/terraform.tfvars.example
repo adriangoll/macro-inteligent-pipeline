@@ -1,9 +1,10 @@
-# Valores de variables (ejemplo / placeholder). Copiar a terraform.tfvars.
+# Valores de variables. Copiar a terraform.tfvars y ajustar.
 # No versionar terraform.tfvars si contiene datos sensibles.
 
 env                     = "dev"
 region                  = "us-east-1"
 project                 = "macro-intelligence"
+glue_database_name      = "macro_intelligence"
 bronze_glacier_days     = 90
 athena_results_ttl_days = 7
 bytes_scanned_cutoff_gb = 10
