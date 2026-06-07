@@ -88,3 +88,23 @@ Gold    → métricas de negocio, agregaciones, listos para consumo (S3 + Athena
 ├── docker-compose.yml
 └── .env.example
 ```
+
+## Git conventions
+
+### Branch naming
+feat/descripcion-corta
+fix/descripcion-corta
+chore/descripcion-corta
+docs/descripcion-corta
+
+### Commit messages
+Usar Conventional Commits:
+- feat: descripcion corta
+- fix: descripcion corta
+- chore: descripcion corta
+- docs: descripcion corta
+
+Ejemplos:
+- feat: add terraform s3 module
+- fix: airflow image python version
+- chore: update requirements versions
