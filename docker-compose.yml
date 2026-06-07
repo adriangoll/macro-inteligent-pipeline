@@ -60,7 +60,10 @@ services:
   airflow-scheduler:
     <<: *airflow-common
     container_name: mip-airflow-scheduler
-    command: ["bash", "-c", "airflow db migrate && exec airflow scheduler"]
+    depends_on:
+      airflow-webserver:
+        condition: service_started
+    command: ["bash", "-c", "exec airflow scheduler"]
 
   streamlit:
     image: python:3.11-slim
