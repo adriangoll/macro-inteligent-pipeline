@@ -1,0 +1,33 @@
+# Metadatos y configuracion de herramientas para Macro Intelligence Pipeline.
+# Placeholder: completar dependencias y configuracion al implementar.
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "macro-intelligence-pipeline"
+version = "0.0.0"
+description = "Pipeline de inteligencia macroeconomica (scaffolding inicial)."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
