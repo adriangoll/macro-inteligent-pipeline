@@ -1,10 +1,9 @@
 # Stack local para Macro Intelligence Pipeline.
-# Servicios: Postgres (metadata de Airflow), Airflow (webserver/scheduler/worker)
-# y Streamlit. Scaffolding: los comandos son placeholders, sin lógica de negocio.
-# Ajustar imágenes, ejecutor y variables antes de usar.
+# Servicios: Postgres (metadata de Airflow), Airflow (webserver + scheduler con
+# LocalExecutor) y Streamlit.
 
 x-airflow-common: &airflow-common
-  image: apache/airflow:2.9.3
+  image: apache/airflow:2.9.3-python3.11
   env_file:
     - .env
   environment: &airflow-common-env
@@ -46,18 +45,22 @@ services:
     container_name: mip-airflow-webserver
     ports:
       - "8080:8080"
-    # NOTE: placeholder. Definir init de DB, creación de usuario y arranque real.
-    command: ["bash", "-c", "echo 'placeholder: configurar airflow webserver'"]
+    command:
+      - bash
+      - -c
+      - |
+        airflow db migrate
+        airflow users create \
+          --username "${_AIRFLOW_WWW_USER_USERNAME:-airflow}" \
+          --password "${_AIRFLOW_WWW_USER_PASSWORD:-airflow}" \
+          --firstname Admin --lastname User --role Admin \
+          --email admin@example.com || true
+        exec airflow webserver
 
   airflow-scheduler:
     <<: *airflow-common
     container_name: mip-airflow-scheduler
-    command: ["bash", "-c", "echo 'placeholder: configurar airflow scheduler'"]
-
-  airflow-worker:
-    <<: *airflow-common
-    container_name: mip-airflow-worker
-    command: ["bash", "-c", "echo 'placeholder: configurar airflow worker'"]
+    command: ["bash", "-c", "airflow db migrate && exec airflow scheduler"]
 
   streamlit:
     image: python:3.11-slim
