@@ -15,11 +15,11 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket         = "macro-intelligence-tfstate"
-    key            = "prod/terraform.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "macro-intelligence-tfstate-lock"
-    encrypt        = true
-  }
+  # backend "s3" {
+  #   bucket         = "macro-intelligence-tfstate"
+  #   key            = "prod/terraform.tfstate"
+  #   region         = "us-east-1"
+  #   use_lockfile   = true
+  #   encrypt        = true
+  # }
 }

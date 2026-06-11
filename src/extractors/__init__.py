@@ -1,4 +1,4 @@
-"""Extractores: conectores a APIs externas (placeholder, sin implementacion).
+"""Extractores: conectores a APIs y fuentes externas.
 
-Fuentes previstas: Bluelytics, BCRA, INDEC, CoinGecko, FRED.
+Fuentes implementadas: Bluelytics, BCRA, INDEC, CoinGecko, FRED.
 """
